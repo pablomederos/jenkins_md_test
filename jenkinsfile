@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        PANDOC_IMAGE = 'pandoc/minimal'
+        PANDOC_IMAGE = 'jagregory/pandoc'
     }
 
     stages {
@@ -10,7 +10,7 @@ pipeline {
                 script {
                     sh 'pwd'
                     sh 'ls'
-                    sh "docker run --rm -v .:/workspace -w /workspace ${PANDOC_IMAGE} README.md > output.html"
+                    sh "docker run --rm -v .:/source ${PANDOC_IMAGE} -f markdown -t html5 README.md -o output.html"
                     sh "cat output.html"
                 }
             }

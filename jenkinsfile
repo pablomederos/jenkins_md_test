@@ -10,7 +10,7 @@ pipeline {
                 script {
                     sh 'pwd'
                     sh 'ls -lha'
-                    sh "docker run --rm -v ${pwd()}:/workspace -w /workspace ${PANDOC_IMAGE} README.md -o output.html"
+                    sh "docker run --rm -v ${pwd()}:/workspace -w /workspace -u $(id -u ${USER}):$(id -g ${USER}) ${PANDOC_IMAGE} README.md -o output.html"
                     sh "cat output.html"
                 }
             }

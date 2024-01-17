@@ -1,0 +1,15 @@
+pipeline {
+    agent {
+        docker {
+            image 'pandoc/latex'
+            args 'README.md -o outfile.html'
+        }
+    }
+    stages {
+        stage('Build') {
+            steps {
+                sh 'cat outfile.html'
+            }
+        }
+    }
+}

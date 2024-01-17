@@ -1,14 +1,16 @@
 pipeline {
-    agent {
-        docker {
-            image 'pandoc/latex'
-            args 'README.md -o outfile.html'
-        }
+    agent any
+    environment {
+        PANDOC_IMAGE = 'pandoc/latex:latest'
     }
+
     stages {
-        stage('Build') {
+        stage('Run Pandoc') {
             steps {
-                sh 'cat outfile.html'
+                script {
+                    sh "docker run --rm -v ${pwd()}:/workspace -w /workspace ${PANDOC_IMAGE} pandoc input.md -o output.html"
+                    sh "cat output.html"
+                }
             }
         }
     }

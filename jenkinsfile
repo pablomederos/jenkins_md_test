@@ -2,13 +2,15 @@ pipeline {
     agent any
     environment {
         PANDOC_IMAGE = 'pandoc/latex'
+        PWD = ""
     }
 
     stages {
         stage('Run Pandoc') {
             steps {
                 script {
-                    sh 'pwd'
+                    PWD = sh 'pwd'
+                    sh "echo ${PWD}"
                     sh 'ls -lha'
                     sh "docker run --rm -v \"`${pwd}`:/workspace\" -w /workspace -u `id -u`:`id -g` ${PANDOC_IMAGE} README.md -o output.html"
                     sh "cat output.html"
